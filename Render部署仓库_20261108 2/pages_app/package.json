@@ -1,0 +1,14 @@
+{
+  "name": "wenjin-pages",
+  "version": "1.0.0",
+  "private": true,
+  "description": "问津 · 科技成果转化 AI 初筛 —— QW Pages 公网部署版（Node 22 零依赖；判据移植副本经 Python 引擎奇偶校验锁定）",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "parity": "node tests/parity.mjs"
+  }
+}

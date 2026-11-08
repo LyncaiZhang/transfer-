@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generator": "04_构建脚本/export_criteria_json.py",
+    "generated_at": "2026-10-29T03:19:20",
+    "run_triage_sha256": "b97e0c2d4b556bb77c9a2d53fbfdcb4a7f95157a2d616f9292440ec02d0055e9",
+    "wenjin_criteria_sha256": "06e09cd992f1fe0d7ca6192bf06714892241b2c7e3f36a99ea97fbb45c488fc5",
+    "rule_version": "run_triage.v1-frozen-20261028",
+    "note": "判据常量唯一来源为 07_证据库/run_triage.py；本 JSON 只是导出副本。改判据必须重跑本脚本与 build_wenjin_parity_fixtures.py，并保持 parity 全绿。",
+    "classification_notice": "问津简化初筛分类，不等价于官方技术成熟度分级。",
+    "draft_notice": "AI 初筛草稿，待人工复核；不得作为投资、合规或法律结论。"
+  },
+  "stages": [
+    "T1",
+    "T2",
+    "T3",
+    "T4"
+  ],
+  "ticket_levels": [
+    "A",
+    "B"
+  ],
+  "ticket_types": [
+    "acceptance",
+    "test_record",
+    "test_report"
+  ],
+  "access_blocking": [
+    "adverse"
+  ],
+  "access_unverifiable": [
+    "insufficient"
+  ],
+  "duration_band": [
+    3,
+    15
+  ],
+  "dim_names": {
+    "1": "需求与客户",
+    "2": "性能与替代",
+    "3": "制造与交付",
+    "4": "权属与合规",
+    "5": "团队与实施",
+    "6": "准入与合规"
+  },
+  "claim_words": {
+    "T4": [
+      "挂网",
+      "量产",
+      "规模化",
+      "已上市",
+      "营收",
+      "批量交付",
+      "装机"
+    ],
+    "T3": [
+      "示范应用",
+      "现场应用",
+      "落地",
+      "投运",
+      "部署",
+      "已在多家"
+    ],
+    "T2": [
+      "样机",
+      "实验室",
+      "试制",
+      "研制"
+    ],
+    "T1": [
+      "机理",
+      "提出方法"
+    ]
+  },
+  "ticket_exclude_words": [
+    "渠道存在性",
+    "竞品",
+    "品类适用性",
+    "非本项目",
+    "同类设备"
+  ],
+  "wording": {
+    "done": "已完成",
+    "planned": "计划",
+    "claimed": "来源声称待核验",
+    "not_found": "未检索到相关证据"
+  },
+  "access_layers": [
+    "强制准入",
+    "市场型认证",
+    "标准与定期检定"
+  ],
+  "level_meaning": {
+    "A": "第三方检测或核验记录",
+    "B": "单位或官方披露",
+    "C": "机构自述或宣传（最高支持 T2，且须标注“来源声称”）",
+    "D": "计划与意向（不得提升阶段）"
+  }
+}

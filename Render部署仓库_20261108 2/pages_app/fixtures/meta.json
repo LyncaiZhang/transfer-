@@ -1,0 +1,10 @@
+{
+  "generator": "04_构建脚本/build_wenjin_parity_fixtures.py",
+  "generated_at": "2026-10-29T09:32:42",
+  "as_of": "2026-10-29",
+  "cases": 20,
+  "run_triage_sha256": "b97e0c2d4b556bb77c9a2d53fbfdcb4a7f95157a2d616f9292440ec02d0055e9",
+  "wenjin_service_sha256": "c0f31ec0b8411a0ae5219d9c4d5fd0cc60623109ac798ae2c634900930a8e97f",
+  "wenjin_extract_sha256": "7ef478b9250119fcf3ab315d49dc6750e4ada4072f5a2dc20a724e3b49cb6be7",
+  "note": "expected 为 Python 引擎真实输出的归一化（剔除 request_id/elapsed_ms）。Node 引擎必须逐字段一致；判据或引擎一改即重跑本脚本。"
+}

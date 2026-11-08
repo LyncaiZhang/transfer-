@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>问津｜科技成果转化智能助手</title>
+<meta name="description" content="面向技术经理人的科技成果转化智能助手：收到专利或成果介绍后，输出有依据的当前判断、可借鉴的公开参考、可执行的下一步行动。结论逐条可回指原文。">
+<style>
+:root{
+  --bg:#F4F7F8; --card:#FFFFFF; --line:#DDE5EB; --line2:#EDF2F5;
+  --ink:#172B3A; --ink2:#536271; --ink3:#7C8B97; --brand:#0B5E69; --brand-soft:#E8F2F3;
+  --t1:#6B7C89; --t2:#2F6F8F; --t3:#0B5E69; --t4:#14532D; --u:#8A5A1E;
+  --warn:#8A5A1E; --warn-bg:#FBF3E4; --bad:#9B2C2C; --bad-bg:#FBEDED; --ok:#1F6B4A; --ok-bg:#E9F4EE;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;}
+a{color:var(--brand)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:20;background:rgba(244,247,248,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:56px}
+nav .brand{font-weight:700;color:var(--brand);letter-spacing:-.2px}
+nav a.lnk{color:var(--ink2);text-decoration:none;font-size:14.5px;padding:6px 2px;border-bottom:2px solid transparent}
+nav a.lnk:hover,nav a.lnk:focus-visible{border-color:var(--brand);color:var(--brand)}
+nav .spacer{flex:1}
+nav .status{font-size:12.5px;color:var(--ink3)}
+header.hero{padding:44px 0 8px;scroll-margin-top:12px}
+.kicker{font-size:12.5px;letter-spacing:.14em;color:var(--brand);font-weight:700}
+h1{font-size:44px;line-height:1.22;margin:10px 0 12px;letter-spacing:-1px}
+h1 .dim{color:var(--ink3);font-weight:600}
+.lead{color:var(--ink2);max-width:720px;margin:0 0 26px;font-size:17px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px}
+.form{padding:22px 22px 18px}
+.form label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin:0 0 7px}
+textarea{width:100%;min-height:168px;resize:vertical;padding:14px 15px;border:1px solid var(--line);
+  border-radius:8px;font:15px/1.7 inherit;color:var(--ink);background:#FCFDFD}
+textarea:focus{outline:2px solid var(--brand);outline-offset:1px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr 180px;gap:12px;margin-top:12px}
+input[type=text],input[type=date]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;
+  font:15px/1.5 inherit;color:var(--ink);background:#FCFDFD}
+input:focus{outline:2px solid var(--brand);outline-offset:1px;background:#fff}
+.actions{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+button{border:0;border-radius:8px;font:600 15px/1 inherit;cursor:pointer;min-height:44px;padding:0 20px}
+button.primary{background:var(--brand);color:#fff}
+button.primary:hover{background:#094C55}
+button.primary:disabled{background:#9DB3B7;cursor:not-allowed}
+button.ghost{background:#fff;color:var(--brand);border:1px solid var(--line)}
+button.ghost:hover{border-color:var(--brand)}
+.hint{font-size:13px;color:var(--ink3)}
+.err{color:var(--bad);font-size:14px;margin-top:10px;display:none}
+.err.on{display:block}
+.steps{display:none;margin-top:14px;font-size:13.5px;color:var(--ink2)}
+.steps.on{display:block}
+.steps .st{display:inline-flex;align-items:center;gap:7px;margin-right:18px;opacity:.45}
+.steps .st.on{opacity:1;font-weight:600;color:var(--brand)}
+.steps .st.done{opacity:1;color:var(--ink2)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.spin{width:14px;height:14px;border:2px solid #c9d6db;border-top-color:var(--brand);border-radius:50%;
+  display:inline-block;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+section{padding:34px 0;scroll-margin-top:66px}
+h2{font-size:26px;margin:0 0 6px;letter-spacing:-.4px}
+.sub{color:var(--ink2);margin:0 0 18px;font-size:15px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* 报告 */
+#report{display:none}
+#report.on{display:block}
+.rep-head{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 24px}
+.rep-title{font-size:21px;font-weight:700;margin:0 0 4px}
+.stamp{display:inline-block;font-size:12px;font-weight:700;color:var(--warn);background:var(--warn-bg);
+  border:1px solid #EAD9B4;border-radius:5px;padding:4px 10px;margin-bottom:12px}
+.stagebox{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;border-radius:12px;
+  font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.badge.T1{background:var(--t1)}.badge.T2{background:var(--t2)}.badge.T3{background:var(--t3)}
+.badge.T4{background:var(--t4)}.badge.U{background:var(--u)}
+.stage-meta{flex:1;min-width:260px}
+.stage-meta .why{color:var(--ink);font-size:15.5px;margin:0 0 6px}
+.notice{font-size:12.5px;color:var(--ink3)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{font-size:12.5px;border:1px solid var(--line);border-radius:20px;padding:3px 11px;color:var(--ink2);background:#FBFDFD}
+.chip b{color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.panel{padding:18px 20px}
+.panel h3{font-size:16px;margin:0 0 10px;letter-spacing:-.2px}
+.ev{list-style:none;margin:0;padding:0}
+.ev li{border-top:1px solid var(--line2);padding:9px 0}
+.ev li:first-child{border-top:0}
+.ev .t{font-size:14.5px}
+.ev .m{font-size:12.5px;color:var(--ink3);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top;overflow-wrap:anywhere}
+th{font-size:12.5px;color:var(--ink3);font-weight:700;background:#FAFCFD;white-space:nowrap}
+td.mono{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink2);font-size:12.5px}
+.lv{display:inline-block;min-width:22px;text-align:center;font-weight:800;font-size:12px;border-radius:4px;padding:1px 5px}
+.lv.A{background:#E9F4EE;color:#1F6B4A}.lv.B{background:#EAF1F6;color:#2F6F8F}
+.lv.C{background:#F3F4F6;color:#5B6670}.lv.D{background:#FBF3E4;color:#8A5A1E}
+.tag{font-size:12px;border-radius:4px;padding:1px 7px;border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.tag.done{background:#E9F4EE;border-color:#C8E2D4;color:#1F6B4A}
+.tag.plan{background:#FBF3E4;border-color:#EAD9B4;color:#8A5A1E}
+.tag.claim{background:#F3F4F6;color:#5B6670}
+.tag.bad{background:var(--bad-bg);border-color:#EBC9C9;color:var(--bad)}
+details{border-top:1px solid var(--line2);padding:8px 0}
+details summary{cursor:pointer;font-size:14px;color:var(--ink)}
+details summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+details .body{padding:8px 0 4px 2px;font-size:13.5px;color:var(--ink2)}
+.reflist{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.ref{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:#FCFDFD}
+.ref .h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ref .ttl{font-weight:700;font-size:15px}
+.ref .u{font-size:12.5px;word-break:break-all}
+.ref ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2)}
+.ref .diff{color:#7A4A12}
+.act{counter-reset:a;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.act li{border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:7px;padding:12px 15px;background:#FCFDFD}
+.act .a{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.act .m{font-size:13px;color:var(--ink2)}
+.act .m b{color:var(--ink);font-weight:600}
+.gap{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.gap li{font-size:14px;border-left:2px solid var(--line);padding:2px 0 2px 12px}
+.gap .w{color:var(--ink3);font-size:13px;display:block}
+.banner{border-radius:8px;padding:12px 16px;font-size:14px;margin:0 0 16px}
+.banner.warn{background:var(--warn-bg);border:1px solid #EAD9B4;color:#6B4A12}
+.banner.bad{background:var(--bad-bg);border:1px solid #EBC9C9;color:var(--bad)}
+.banner.ok{background:var(--ok-bg);border:1px solid #C8E2D4;color:#1F5B40}
+/* 案例 / 指引 / 链接 */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px 17px;display:flex;flex-direction:column;gap:7px}
+.cc .dom{font-size:12px;color:var(--brand);font-weight:700}
+.cc h3{font-size:15.5px;margin:0;line-height:1.5}
+.cc p{margin:0;font-size:13.5px;color:var(--ink2)}
+.cc .foot{margin-top:auto;font-size:12px;color:var(--ink3)}
+.gcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gc{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px 18px}
+.gc h3{font-size:16px;margin:0 0 6px}
+.gc .q{font-size:13.5px;color:var(--brand);font-weight:600;margin:0 0 8px}
+.gc p{margin:0 0 8px;font-size:14px;color:var(--ink2)}
+.gc details{border-top:1px solid var(--line2)}
+.gc ul{margin:4px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2)}
+.links{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.lk{border:1px solid var(--line);border-radius:9px;padding:14px 16px;background:var(--card)}
+.lk .n{font-weight:700;font-size:15px}
+.lk .p{font-size:13.5px;color:var(--ink2);margin:3px 0 6px}
+.lk .u{font-size:12.5px;word-break:break-all}
+.lk .st{font-size:12px;color:var(--ink3);margin-top:6px}
+dialog{border:1px solid var(--line);border-radius:12px;padding:0;max-width:760px;width:calc(100% - 32px);
+  max-height:86vh;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(23,43,58,.45)}
+.cd-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;
+  padding:20px 22px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
+.cd-kicker{font-size:12px;letter-spacing:.1em;color:var(--brand);font-weight:700}
+.cd-head h2{font-size:20px;margin:4px 0 4px;letter-spacing:-.3px}
+.cd-body{padding:16px 22px 24px;overflow-y:auto;max-height:calc(86vh - 90px)}
+.cd-body section{margin-bottom:16px;padding:0}
+.cd-body h3{font-size:14px;margin:0 0 6px;color:var(--brand)}
+.cd-body p{margin:0 0 6px;font-size:14px;color:var(--ink2)}
+.cd-body ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink2)}
+.cc{cursor:pointer}
+.cc:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+footer{border-top:1px solid var(--line);margin-top:20px;padding:26px 0 54px;font-size:13px;color:var(--ink3)}
+footer b{color:var(--ink2)}
+.fine{font-size:12.5px;color:var(--ink3);margin-top:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media print{
+  dialog{display:none!important}
+  nav,.no-print,#cases,#guides,#links,#mcp,header.hero,.form .actions,.steps{display:none!important}
+  body{background:#fff;font-size:11.5pt}
+  .wrap{max-width:none;padding:0}
+  .card,.panel{border:1px solid #C9D3DA;break-inside:avoid}
+  #report{display:block!important}
+  section{page-break-inside:auto;padding:8px 0}
+  .panel{page-break-inside:avoid}
+  a{color:#000;text-decoration:none}
+  .badge{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media(max-width:900px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .gcards{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  h1{font-size:34px}
+}
+@media(max-width:640px){
+  .wrap{padding:0 14px}
+  h1{font-size:30px}
+  .lead{font-size:15.5px}
+  .row{grid-template-columns:1fr}
+  .cards,.gcards,.links{grid-template-columns:1fr}
+  .rep-head{padding:16px}
+  .panel{padding:14px}
+  table{font-size:13px}
+  th,td{padding:7px 6px}
+  th{white-space:normal}
+  nav .wrap{gap:12px;height:50px}
+  nav a.lnk{font-size:13px}
+  nav .status{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">问津</span>
+    <a class="lnk" href="#analyze">成果分析</a>
+    <a class="lnk" href="#cases">精选案例</a>
+    <a class="lnk" href="#extra">补充案例</a>
+    <a class="lnk" href="#guides">阶段指引</a>
+    <a class="lnk" href="#links">常用链接</a>
+    <a class="lnk" href="#mcp">MCP</a>
+    <span class="spacer"></span>
+    <span class="status" id="svc">服务状态检测中…</span>
+  </div>
+</nav>
+
+<header class="hero wrap" id="analyze">
+  <div class="kicker">科技成果转化初筛 · 证据链可核对</div>
+  <h1>让成果初筛<span class="dim">有据可查</span></h1>
+  <p class="lead">收到一项专利或成果介绍，问津把它摊开成可逐条核对的证据链，输出三件事：<b>有依据的当前判断</b>（现有证据支持它走到哪一步）、<b>可借鉴的公开参考</b>（同类成果、标准与名录，最多 3 条并附访问状态）、<b>可执行的下一步行动</b>（还缺哪些证据、先补哪三项）。结论逐条对应原文片段，未知项显式标出。</p>
+
+    <div class="card form">
+    <div class="banner ok" id="dep-banner" style="margin:0 0 14px"><b>公网演示环境。</b>本页运行的是冻结判据的移植副本（与项目主机上的 Python 引擎逐字段奇偶校验一致）；判定仍为 <b>AI 初筛草稿，须人工复核</b>。指纹见页脚。</div>
+    <label for="text">成果材料正文<span class="hint">（专利摘要、论文摘要或成果介绍，30–12000 字）</span></label>
+    <textarea id="text" placeholder="粘贴专利摘要或案例正文……例如：本发明公开一种基于非分散红外的甲烷检测装置，实验室测试表明……已完成样机试制，计划开展工业现场中试……"></textarea>
+    <div class="row">
+      <div>
+        <label for="use">目标用途<span class="hint">（可选）</span></label>
+        <input type="text" id="use" placeholder="如：工业可燃气体泄漏监测">
+      </div>
+      <div>
+        <label for="url">原文链接<span class="hint">（可选，仅记录不代取）</span></label>
+        <input type="text" id="url" placeholder="https://…">
+      </div>
+      <div>
+        <label for="asof">评估截止日<span class="hint">（可选）</span></label>
+        <input type="date" id="asof">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="go" type="button">开始分析</button>
+      <button class="ghost no-print" id="sample" type="button">填入示例材料</button>
+      <span class="hint" id="charcount">0 字</span>
+    </div>
+    <div class="err" id="err" role="alert"></div>
+    <div class="steps" id="steps" aria-live="polite">
+      <span class="st" data-s="1"><span class="dot"></span>校验输入</span>
+      <span class="st" data-s="2"><span class="dot"></span>分析材料</span>
+      <span class="st" data-s="3"><span class="dot"></span>检索公开参考</span>
+      <span class="st" data-s="4"><span class="dot"></span>整理报告</span>
+    </div>
+    <p class="fine">这是公网演示环境：输入内容会<b>经公网传输并随判定结果记录到演示库</b>（用于台账核对与改进），请勿提交涉密、未公开或商业敏感材料；如需保密，请改用项目主机上的本机服务或 MCP 通道。</p>
+  </div>
+</header>
+
+<section class="wrap" id="report" aria-live="polite">
+  <div class="card rep-head">
+    <div style="flex:1;min-width:280px">
+      <div class="stamp" id="stamp">AI 初筛草稿，待人工复核</div>
+      <h2 class="rep-title" id="rep-title">—</h2>
+      <div class="hint" id="rep-meta"></div>
+    </div>
+    <div class="no-print" style="display:flex;gap:8px;align-items:flex-start">
+      <button class="ghost" id="print" type="button">打印 / 存为 PDF</button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card panel">
+      <h3>技术阶段（简化初筛）</h3>
+      <div class="stagebox">
+        <div class="badge" id="stage-badge">T2</div>
+        <div class="stage-meta">
+          <p class="why" id="stage-why"></p>
+          <div class="notice" id="stage-notice">问津简化初筛分类，不等价于官方技术成熟度分级。</div>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="card panel">
+      <h3>摘要</h3>
+      <p id="summary" style="margin:0;font-size:14.5px;color:var(--ink2)"></p>
+      <div id="modelnote" class="fine"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card panel">
+      <h3>转化链条事件<span class="hint">（只写有来源支持的事件）</span></h3>
+      <ul class="ev" id="events"></ul>
+    </div>
+    <div class="card panel">
+      <h3>第 6 维 · 准入与合规<span class="hint">（三层分别问有/无/不适用）</span></h3>
+      <table><thead><tr><th>层</th><th>状态</th><th>依据</th></tr></thead><tbody id="dim6"></tbody></table>
+    </div>
+  </div>
+
+  <div class="card panel" style="margin-top:18px">
+    <h3>证据清单<span class="hint">（每条论断都是输入原文的逐字片段，locator 给字符区间）</span></h3>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>编号</th><th>级</th><th>论断（原文片段）</th><th>定位</th><th>措辞</th><th>支持</th></tr></thead>
+        <tbody id="claims"></tbody>
+      </table>
+    </div>
+    <div id="claimsmore"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card panel">
+      <h3>证据缺口</h3>
+      <ul class="gap" id="gaps"></ul>
+    </div>
+    <div class="card panel">
+      <h3>补证行动<span class="hint">（最多 3 项）</span></h3>
+      <ol class="act" id="actions"></ol>
+    </div>
+  </div>
+
+  <div class="card panel" style="margin-top:18px">
+    <h3>公开参考<span class="hint">（当次真实检索，最多 3 项）</span></h3>
+    <div id="searchmeta" class="fine" style="margin-bottom:10px"></div>
+    <ul class="reflist" id="refs"></ul>
+    <div id="libwrap" style="margin-top:14px;display:none">
+      <h3 style="font-size:15px;margin:0 0 8px">库内可比案例<span class="hint">（已人工核对原文 · 非当次联网检索）</span></h3>
+      <ul class="reflist" id="librefs"></ul>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card panel">
+      <h3>冲突与禁用值</h3>
+      <div id="conflicts" class="hint" style="font-size:14px"></div>
+    </div>
+    <div class="card panel">
+      <h3>限制与边界</h3>
+      <ul id="limits" style="margin:0;padding-left:18px;font-size:13.5px;color:var(--ink2)"></ul>
+    </div>
+  </div>
+
+  <p class="fine" id="rep-foot"></p>
+</section>
+
+<section class="wrap" id="cases">
+  <div class="section-head">
+    <div>
+      <h2>精选案例</h2>
+      <p class="sub">只列出来源已人工核对原文的案例；每条可回源到原始链接。</p>
+    </div>
+    <span class="tag" id="cases-label">已核对公开来源</span>
+  </div>
+  <div class="cards" id="case-grid"></div>
+</section>
+
+<section class="wrap" id="extra">
+  <div class="section-head">
+    <div>
+      <h2>补充案例<span class="hint">（全网检索 · 2026-10-29）</span></h2>
+      <p class="sub">独立于证据库 31 席的新增公开案例，重点是「验收与运行」「监管抽查」「计划终止」三类；每条都有逐字摘录与可访问来源。</p>
+    </div>
+    <span class="tag" id="extra-label">—</span>
+  </div>
+  <div class="cards" id="extra-grid" style="grid-template-columns:repeat(3,1fr)"></div>
+</section>
+
+<section class="wrap" id="guides">
+  <div class="section-head">
+    <div>
+      <h2>阶段指引</h2>
+      <p class="sub">每个阶段要回答的问题、典型材料、常见误区与下一步。</p>
+    </div>
+  </div>
+  <div class="gcards" id="guide-grid"></div>
+</section>
+
+<section class="wrap" id="links">
+  <div class="section-head">
+    <div>
+      <h2>常用链接</h2>
+      <p class="sub">每条都经实测访问状态；链接卡片不代表已接入其数据接口。</p>
+    </div>
+  </div>
+  <div class="links" id="link-grid"></div>
+</section>
+
+<section class="wrap" id="mcp">
+  <div class="section-head">
+    <div>
+      <h2>MCP 调用</h2>
+      <p class="sub">项目主机上的 MCP 与本页共用同一套冻结判据：MCP 走 Python 原版引擎（wenjin.service），本页走移植副本（逐字段奇偶校验锁定），不存在第二套阶段口径。</p>
+    </div>
+  </div>
+  <div class="card panel">
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>工具</th><th>输入</th><th>输出</th></tr></thead>
+      <tbody>
+        <tr><td><code>analyze_case</code></td><td>text, target_use?, source_url?, as_of?</td><td>stage、transfer_events、claims、gaps、actions、limitations、status</td></tr>
+        <tr><td><code>find_reference_cases</code></td><td>text / technology, target_use?, stage?, limit?</td><td>references、similarities、differences、access_status、search_status</td></tr>
+        <tr><td><code>get_transfer_guide</code></td><td>topic</td><td>guide、typical_evidence、pitfalls、next_steps、sources</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="fine" style="margin-top:12px">连接方式（stdio）：</p>
+    <pre style="background:#F7FAFB;border:1px solid var(--line);border-radius:7px;padding:12px;overflow-x:auto;font-size:12.5px"><code>{
+  "mcpServers": {
+    "wenjin": {
+      "command": "<项目目录>/.venv/bin/python",
+      "args": ["-m", "wenjin.mcp_server"],
+      "cwd": "<项目目录>"
+    }
+  }
+}</code></pre>
+    <p class="fine" id="mcp-status">工具发现与真实调用记录见「运行记录/02_MCP实测」。</p>
+  </div>
+</section>
+
+<dialog id="case-dialog" aria-labelledby="cd-title">
+  <div class="cd-head">
+    <div>
+      <div class="cd-kicker" id="cd-kicker">案例详情</div>
+      <h2 id="cd-title">—</h2>
+      <div class="hint" id="cd-sub"></div>
+    </div>
+    <button class="ghost no-print" id="cd-close" type="button" aria-label="关闭">关闭</button>
+  </div>
+  <div class="cd-body">
+    <section><h3>概览</h3><div id="cd-overview"></div></section>
+    <section><h3>公开事件与依据</h3><div id="cd-events"></div></section>
+    <section><h3>可借鉴点</h3><div id="cd-takeaway"></div></section>
+    <section><h3>不可直接迁移之处</h3><div id="cd-limits"></div></section>
+    <section><h3>来源与核对</h3><div id="cd-sources"></div></section>
+  </div>
+</dialog>
+
+<footer>
+  <div class="wrap">
+    <p><b>边界声明。</b>问津是早期初筛与尽调准备工具：不预测项目成败，不输出投资估值或成功概率，不提供自由实施（FTO）或法律结论，不给综合总分与加权排名。技术分组为面向初筛的简化分类，<b>不等价于任何官方技术成熟度分级</b>。所有判定结论须人工对照原文复核后才可用于决策。</p>
+    <p class="fine" id="footmeta"></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  var txt = function(s){ return esc(s).replace(/\*\*/g, ""); };
+  var state = { busy:false, last:null };
+
+  var SAMPLE = "本发明公开一种基于非分散红外（NDIR）原理的甲烷浓度检测装置。采用双通道差分结构，以 3.3 μm 窄带滤光片抑制水汽干扰，探测单元为热电堆。实验室测试表明，在 0–5% VOL 量程内，检出限达到 0.05% VOL，响应时间 t90 小于 25 s，对 1000 ppm 乙醇与 500 ppm 一氧化碳的交叉干扰小于 2% FS。项目组已完成样机试制，计划于 2026 年开展工业现场中试，拟与某燃气公司合作进行挂网验证。目前尚未取得计量器具型式批准与防爆合格证。";
+
+  // ── 状态机：只反映真实阶段，不显示虚构百分比 ──
+  function steps(on, doneAll){
+    var box = $("steps"); box.classList.add("on");
+    [].forEach.call(box.querySelectorAll(".st"), function(el){
+      var n = +el.dataset.s;
+      el.classList.toggle("on", n === on && !doneAll);
+      el.classList.toggle("done", doneAll || n < on);
+    });
+  }
+  function hideSteps(){ $("steps").classList.remove("on"); }
+  function err(msg){ var e=$("err"); e.textContent=msg; e.classList.add("on"); }
+  function clearErr(){ $("err").classList.remove("on"); $("err").textContent=""; }
+
+  $("text").addEventListener("input", function(){
+    $("charcount").textContent = this.value.trim().length + " 字";
+  });
+  $("sample").addEventListener("click", function(){
+    $("text").value = SAMPLE;
+    $("text").dispatchEvent(new Event("input"));
+    $("text").focus();
+  });
+  $("print").addEventListener("click", function(){ window.print(); });
+
+  function post(path, body){
+    return fetch(path, {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(body)}).then(function(r){
+        return r.json().then(function(j){ return {ok:r.ok, status:r.status, data:j}; });
+      });
+  }
+
+  $("go").addEventListener("click", function(){
+    if (state.busy) return;
+    var text = $("text").value.trim();
+    clearErr();
+    if (!text){ err("请先粘贴成果材料正文（≥30 字）。"); $("text").focus(); return; }
+    if (text.length < 30){ err("输入过短（" + text.length + " 字，下限 30 字）：请补充技术对象、用途或验证结果。"); $("text").focus(); return; }
+
+    state.busy = true;
+    var btn = $("go"); btn.disabled = true; btn.textContent = "分析中…";
+    $("report").classList.remove("on");
+    steps(1);
+
+    var payload = {text: text, target_use: $("use").value.trim() || null,
+                   source_url: $("url").value.trim() || null,
+                   as_of: $("asof").value || null};
+
+    post("/api/analyze", payload).then(function(res){
+      if (!res.ok || !res.data || res.data.status === "failed"){
+        var m = (res.data && res.data.error && res.data.error.message) || ("分析失败（HTTP " + res.status + "）");
+        throw new Error(m);
+      }
+      state.last = res.data;
+      steps(2);
+      steps(3);
+      var q = {text: text, target_use: payload.target_use,
+               stage: res.data.technical_stage.label, limit: 3};
+      return post("/api/references", q).then(function(r2){
+        var refs = (r2.data && r2.data.references) || [];
+        var sm = (r2.data && r2.data.search_status) || (r2.ok ? "no_match" : "failed");
+        if (!r2.ok && r2.data && r2.data.error) sm = "failed";
+        state.last.references = refs;
+        state.last.library_references = (r2.data && r2.data.library_references) || [];
+        state.last.search_status = sm;
+        state.last.search_meta = {queries:(r2.data&&r2.data.queries)||[], note:(r2.data&&r2.data.note)||""};
+        steps(4);
+        render(state.last);
+      }, function(){
+        state.last.references = [];
+        state.last.search_status = "failed";
+        state.last.search_meta = {queries:[], note:"检索请求失败；分析结果已保留"};
+        steps(4);
+        render(state.last);
+      });
+    }).catch(function(e){
+      err(e.message || "请求失败，请重试。");
+      hideSteps();
+    }).then(function(){
+      state.busy = false; btn.disabled = false; btn.textContent = "开始分析";
+      $("report").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+
+  function tagWording(w){
+    if (w === "已完成") return '<span class="tag done">已完成</span>';
+    if (w === "计划") return '<span class="tag plan">计划</span>';
+    if (w === "未检索到相关证据") return '<span class="tag bad">未检索到</span>';
+    return '<span class="tag claim">来源声称</span>';
+  }
+
+  function render(d){
+    var st = d.technical_stage || {};
+    $("report").classList.add("on");
+    $("rep-title").textContent = d.case_title || "（未命名材料）";
+    $("rep-meta").textContent = "评估截止日 " + (d.as_of||"—") + " · 规则版本 " + (d.rule_version||"—")
+      + " · 请求号 " + (d.request_id||"—") + " · 耗时 " + (d.elapsed_ms||0) + " ms";
+    var b = $("stage-badge"); b.textContent = st.label || "U"; b.className = "badge " + (st.label||"U");
+    $("stage-why").textContent = st.reason || "";
+    var elemName = {acceptance_ticket:"验收类门票", actual_environment:"实际环境运行",
+                    duration_stated:"连续运行时长", organiser_named:"验收组织方"};
+    var extra = "";
+    if (st.t4_missing && st.t4_missing.length){
+      extra = "　T4 未达成，缺：" + st.t4_missing.map(function(k){ return elemName[k]||k; }).join("、");
+    } else if (st.t4_elements && st.t4_elements.acceptance_ticket && st.label === "T4"){
+      extra = "　T4 四要素齐备（验收类门票／实际环境运行／连续运行时长／验收组织方）";
+    }
+    if (st.missing_ticket_elements && st.missing_ticket_elements.length){
+      extra += "　门票待补可回查要素：" + st.missing_ticket_elements.map(function(k){
+        return {verifiable_identifier:"报告/证书编号", organiser_named:"验收组织方"}[k]||k; }).join("、");
+    }
+    $("stage-notice").textContent = (st.classification_notice || "问津简化初筛分类，不等价于官方技术成熟度分级。")
+      + (st.capped_by ? "（封顶原因：" + st.capped_by + "）" : "") + extra;
+    var ex = d.extraction || {};
+    var lv = ex.by_level || {};
+    var chips = [
+      '论断 <b>' + (ex.claims_total||0) + '</b> 条',
+      'A <b>' + (lv.A||0) + '</b> / B <b>' + (lv.B||0) + '</b> / C <b>' + (lv.C||0) + '</b> / D <b>' + (lv.D||0) + '</b>',
+      '缺口 <b>' + ((d.gaps||[]).length) + '</b> 项',
+      '行动 <b>' + ((d.actions||[]).length) + '</b> 项'
+    ];
+    if (st.pending_review) chips.push('<span style="color:var(--warn)">门票待人工核对</span>');
+    $("chips").innerHTML = chips.map(function(c){ return '<span class="chip">'+c+'</span>'; }).join("");
+    $("summary").textContent = st.summary || "";
+    var ms = d.model_status || {};
+    $("modelnote").textContent = ms.used ? "摘要措辞由模型生成；阶段与分级由冻结判据给出。"
+      : ("未启用模型增强（" + (ms.key_present ? "调用失败：" + (ms.error||"") : "未配置密钥") + "），摘要由确定性规则生成。");
+
+    // 事件
+    var evs = d.transfer_events || [];
+    $("events").innerHTML = evs.length ? evs.map(function(e){
+      var map = {confirmed_in_source:"已完成",source_claim:"来源声称",planned:"计划",unknown:"未知",conflict:"冲突"};
+      return '<li><div class="t">'+esc(e.summary||"")+'</div><div class="m">'+esc(e.event_type)+
+        ' · '+esc(map[e.status]||e.status)+(e.event_date?(' · '+esc(e.event_date)):'')+
+        ' · '+esc((e.source_ids||[]).join(", "))+'</div></li>';
+    }).join("") : '<li class="m" style="color:var(--ink3)">材料中没有可识别的转化事件。</li>';
+
+    // 第 6 维
+    var acc = d.access_compliance || {};
+    var lab = {supported:"有（给出可回查要素）", insufficient:"提到但缺型号/证号", unknown:"材料未提及", adverse:"材料明示缺失", not_applicable:"不适用（已说明理由）"};
+    $("dim6").innerHTML = (acc.layers||[]).map(function(r){
+      return '<tr><td>'+esc(r.access_layer)+'</td><td>'+esc(lab[r.state]||r.state)+
+        '</td><td style="font-size:13px;color:var(--ink2)">'+txt(r.reason||"")+'</td></tr>';
+    }).join("") + (acc.capped_t2 ? '<tr><td colspan="3" style="color:var(--bad);font-size:13px">①层已证实缺失 → 按纪律封顶 T2</td></tr>' : "");
+
+    // 证据
+    var claims = d.claims || [];
+    var rows = claims.map(function(c){
+      var tip = '来源：用户输入材料；定位：'+ (c.locator||"") +'；公开时间：'+ (c.published_at||"未披露")
+        + '；支持范围：'+ (c.supports||"") + '；限制：'+ (c.limitation||"");
+      return '<tr><td class="mono">'+esc(c.claim_id)+'</td><td><span class="lv '+esc(c.evidence_level)+'">'+
+        esc(c.evidence_level)+'</span></td><td title="'+esc(tip)+'">'+esc(c.claim)+
+        '<div style="font-size:12px;color:var(--ink3);margin-top:2px">'+esc(c.limitation||"")+'</div></td>'+
+        '<td class="mono">'+esc(c.locator||"")+'</td><td>'+tagWording(c.wording)+'</td><td>'+esc(c.supports||"")+'</td></tr>';
+    }).join("");
+    $("claims").innerHTML = rows || '<tr><td colspan="6" style="color:var(--ink3)">未抽出可核查论断。</td></tr>';
+
+    // 缺口
+    $("gaps").innerHTML = (d.gaps||[]).length ? d.gaps.map(function(g){
+      return '<li>'+txt(g.gap)+'<span class="w">'+txt(g.why_it_matters||"")+'</span></li>';
+    }).join("") : '<li style="color:var(--ink3)">未发现缺口。</li>';
+
+    // 行动
+    $("actions").innerHTML = (d.actions||[]).length ? d.actions.map(function(a){
+      return '<li><div class="a">'+esc(a.action)+'</div><div class="m">'+
+        '<b>向谁取得：</b>'+esc(a.ask_from||"")+'<br><b>解决：</b>'+esc(a.resolves||"")+
+        '<br><b>什么算完成：</b>'+esc(a.completion_evidence||"")+'</div></li>';
+    }).join("") : '<li style="color:var(--ink3)">无需补证行动。</li>';
+
+    // 参考
+    var smap = {success:"检索成功", no_match:"检索正常但无匹配", snippet_only:"仅见摘要", blocked:"访问受限", failed:"检索失败", not_requested:"未检索", skipped:"已跳过"};
+    var sm = state.last.search_status || d.search_status || "not_requested";
+    var meta = state.last.search_meta || {};
+    var qs = (meta.queries||[]).map(function(q){ return "「"+esc(q.query)+"」"+esc(smap[q.status]||q.status); }).join("；");
+    $("searchmeta").textContent = "检索状态：" + (smap[sm]||sm) + (qs ? ("　检索式："+qs) : "") + (meta.note?("　"+meta.note):"");
+    var refs = d.references || [];
+    $("refs").innerHTML = refs.length ? refs.map(function(r){
+      var acc2 = {full:"正文可读", snippet_only:"仅见摘要", blocked:"访问受限", failed:"取页失败"}[r.access_status]||r.access_status;
+      return '<li class="ref"><div class="h"><span class="ttl">'+esc(r.title)+'</span>'+
+        '<span class="tag '+(r.access_status==="full"?"done":"claim")+'">'+esc(acc2)+'</span></div>'+
+        '<div class="u"><a href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">'+esc(r.url)+'</a></div>'+
+        '<div style="font-size:12.5px;color:var(--ink3);margin-top:4px">'+esc(r.organization||"")+
+        (r.published_at?(' · '+esc(r.published_at)):' · 日期未知')+' · '+esc(r.source_kind||"")+
+        ' · 检索于 '+esc(r.retrieved_at||"")+'</div>'+
+        '<ul><li>相似点：'+ (r.similarities&&r.similarities.length? r.similarities.map(esc).join("；") : "未检出可比较特征")+'</li>'+
+        '<li class="diff">差异：'+ (r.differences||[]).map(esc).join("；")+'</li></ul></li>';
+    }).join("") : '<li class="ref" style="color:var(--ink3)">'+
+      (sm==="failed" ? "检索失败：分析结果已保留，可稍后重试参考检索。" : "本次未返回可比参考（不凑数）。")+'</li>';
+
+    var lib = d.library_references || [];
+    if (lib.length){
+      $("libwrap").style.display = "block";
+      $("librefs").innerHTML = lib.map(function(c){
+        return '<li class="ref"><div class="h"><span class="ttl">'+esc(c.case_id)+' · '+esc(c.tech)+'</span>'+
+          '<span class="tag done">'+esc(c.verification_status)+'</span></div>'+
+          '<div style="font-size:13.5px;color:var(--ink2);margin-top:4px">'+esc(c.institution||"")+'</div>'+
+          '<ul><li>为何可比：'+ (c.why_comparable||[]).map(esc).join("；")+'</li>'+
+          '<li>可借鉴：'+esc(c.takeaway||"")+'</li>'+
+          '<li class="diff">差异/阻断：'+esc(c.limitations||"")+'</li></ul>'+
+          '<div style="font-size:12.5px;margin-top:6px"><a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">来源</a>'+
+          ' · 发布 '+esc(c.published_at||"未知")+'</div></li>';
+      }).join("");
+    } else { $("libwrap").style.display = "none"; }
+
+    // 冲突
+    var cf = d.conflicts || [];
+    $("conflicts").innerHTML = cf.length ? cf.map(function(c){
+      return '<div style="margin-bottom:6px"><b>'+esc(c.metric)+'</b>：'+esc(c.values.join(" / "))+
+        '<div style="font-size:12.5px;color:var(--ink3)">'+esc(c.note)+'</div></div>';
+    }).join("") + '<div class="tag bad" style="margin-top:8px">以上数值进禁止引用清单</div>'
+      : "未检出同指标多值冲突。";
+
+    // 限制
+    $("limits").innerHTML = (st.limitations||[]).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")
+      + (d.disclaimers||[]).map(function(x){ return '<li style="color:var(--ink3)">'+esc(x)+'</li>'; }).join("");
+
+    $("rep-foot").textContent = "本报告由问津 " + (d.app_version||"") + " 生成；规则版本 " + (d.rule_version||"")
+      + "；人工复核状态：" + (d.human_review||"required") + "。";
+  }
+
+  // ── 案例详情（总纲 §4：概览／事件／可借鉴／不可迁移／来源）──
+  var CASE_DATA = {featured: {}, extra: {}};
+  function bindCards(sel, store, kind){
+    [].forEach.call(document.querySelectorAll(sel + " .cc"), function(el){
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("role", "button");
+      el.setAttribute("aria-label", "查看案例详情");
+      el.addEventListener("click", function(){ openCase(store, kind, el.getAttribute("data-cid")); });
+      el.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault();
+          openCase(store, kind, el.getAttribute("data-cid")); }
+      });
+    });
+  }
+  function li(items, cls){
+    if (!items || !items.length) return '<p style="color:var(--ink3)">未披露</p>';
+    return '<ul'+(cls?' class="'+cls+'"':'')+'>' + items.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("") + '</ul>';
+  }
+  function openCase(store, kind, cid){
+    var c = store[cid]; if (!c) return;
+    var isExtra = (kind === "extra");
+    var kicker = isExtra ? ("补充案例 · " + (c.domain||"") + " · " + (c.kind||""))
+                         : ("精选案例 · " + (c.domain||"") + " · " + (c.kind||""));
+    $("cd-kicker").textContent = kicker;
+    $("cd-title").textContent = isExtra ? (c.title||"") : (c.tech||"");
+    $("cd-sub").textContent = "证据级 " + (c.evidence_level||"—") + " · " + (c.verification_status||"—")
+      + " · 发布 " + (c.published_at||"未知") + " · 取回 " + (c.retrieved_at||"—");
+
+    $("cd-overview").innerHTML =
+      '<p><b>主体：</b>'+esc(c.institution||"未披露")+'</p>'+
+      '<p><b>技术：</b>'+esc(c.tech||"未披露")+'</p>'+
+      '<p><b>材料称：</b>'+esc(c.claimed||"未披露")+'（措辞：'+esc(c.claimed_wording||"—")+'）</p>'+
+      '<p><b>结果：</b>'+esc(c.outcome||isExtra && c.note || "未披露")+'</p>';
+
+    var ev = [];
+    if (c.gate || c.gate_organiser) ev.push("验收/认定形式：" + (c.gate || c.gate_organiser));
+    if (c.duration_years) ev.push("经验时长：" + c.duration_years + " 年");
+    if (c.prewarning) ev.push("预警能力：" + c.prewarning);
+    $("cd-events").innerHTML =
+      '<p style="border-left:3px solid var(--line);padding-left:10px;font-style:italic">「'+
+      esc((c.quote||"（无摘录）"))+'」</p>'+
+      (c.quote2 ? '<p style="border-left:3px solid var(--line);padding-left:10px;font-style:italic">「'+esc(c.quote2)+'」</p>' : '')+
+      li(ev);
+
+    var take = [];
+    if (c.clears_gap) take.push(c.clears_gap);
+    if (c.maps_to) take = take.concat(c.maps_to);
+    if (c.maps_to_dim) take.push("对应维度：" + c.maps_to_dim);
+    $("cd-takeaway").innerHTML = li(take);
+
+    var lim = [];
+    if (c.blocking_evidence) lim.push(c.blocking_evidence);
+    if (c.blocking) lim.push(c.blocking);
+    if (c.note) lim.push("备注：" + c.note);
+    $("cd-limits").innerHTML = li(lim);
+
+    $("cd-sources").innerHTML =
+      '<p><a href="'+esc(c.source_url)+'" target="_blank" rel="noopener noreferrer">'+esc(c.source_url)+'</a></p>'+
+      '<p>核验状态：'+esc(c.verification_status||"—")+
+      (c.link_status === "dead" ? " · <span class='tag bad'>链接实测失效</span>" : "")+
+      (c.link_status === "blocked" ? " · <span class='tag claim'>本侧访问受限</span>" : "")+
+      "</p><p class='fine'>案例只作借鉴，不是当前项目达到同阶段的证据。</p>";
+
+    var d = $("case-dialog");
+    if (typeof d.showModal === "function") d.showModal(); else d.setAttribute("open", "");
+  }
+  $("cd-close").addEventListener("click", function(){ $("case-dialog").close(); });
+  $("case-dialog").addEventListener("click", function(e){
+    if (e.target === this) this.close();      // 点背景关闭
+  });
+
+  // 演示/核验入口：?auto=sample 会用内置示例材料跑一次真实分析（不是预置结果，走同一条链路）
+  try{
+    var params = new URLSearchParams(location.search);
+    if (params.get("auto") === "sample"){
+      $("sample").click();
+      setTimeout(function(){ $("go").click(); }, 60);
+    }
+  }catch(e){}
+
+  // ── 静态区块加载 ──
+  function getJSON(p){ return fetch(p).then(function(r){ return r.json(); }); }
+
+  getJSON("/api/health").then(function(h){
+    var ok = h && h.status === "ok";
+    $("svc").textContent = ok
+      ? ("服务在线 · 案例 " + (h.store&&h.store.cases||0) + " 条 · 模型" + (h.model&&h.model.enabled ? "已启用" : "未配置"))
+      : "服务异常";
+    var sst = (h && h.search) || {};
+    var p = (h && h.parity) || {};
+    $("dep-banner").innerHTML = "<b>公网演示环境。</b>本页运行冻结判据的移植副本（判据指纹 " +
+      esc(String(p.run_triage_sha256||"").slice(0,16)) + "… · 奇偶校验 " + esc(String(p.fixtures_cases||"—")) +
+      " 例全绿）；判定仍为 <b>AI 初筛草稿，须人工复核</b>。";
+    $("footmeta").textContent = "服务版本 " + (h.app_version||"—") + " · 规则版本 " + (h.rule_version||"—")
+      + " · 判据指纹 " + String(p.run_triage_sha256||"—").slice(0,16) + "…"
+      + " · 数据 " + (h.store&&h.store.source || "—")
+      + " · 检索后端 " + (sst.backend || "html(sogou→bing)")
+      + " · " + (h.time||"");
+  }).catch(function(){ $("svc").textContent = "服务离线"; });
+
+  getJSON("/api/cases?limit=4").then(function(r){
+    var list = (r.cases||[]);
+    $("cases-label").textContent = r.label || "已核对公开来源";
+    $("case-grid").innerHTML = list.map(function(c){
+      return '<article class="cc" data-cid="'+esc(c.case_id)+'"><div class="dom">'+esc(c.domain)+' · '+esc(c.kind)+'</div>'+
+        '<h3>'+esc(c.tech)+'</h3><p>'+esc(c.institution||"")+'</p>'+
+        '<p style="color:var(--ink3);font-size:13px">'+esc((c.claimed||"").slice(0,64))+(c.claimed&&c.claimed.length>64?"…":"")+'</p>'+
+        '<div class="foot">证据级 '+esc(c.evidence_level)+' · '+esc(c.verification_status)+
+        '<br>' + (c.link_status === 'dead'
+          ? '<span class="tag bad">链接失效（实测 '+esc(c.link_http||'404')+'）</span>'
+          : '<a href="'+esc(c.source_url)+'" target="_blank" rel="noopener noreferrer">查看来源</a>'
+            + (c.link_status === 'blocked' ? ' <span class="tag claim">实测 '+esc(c.link_http||'403')+' 访问受限</span>' : '')
+            + (c.link_status === 'unchecked' ? ' <span class="tag claim">链接未实测</span>' : ''))
+        + '</div></article>';
+    }).join("") || '<p class="hint">库内暂无已核对案例。</p>';
+    (list||[]).forEach(function(c){ CASE_DATA.featured[c.case_id] = c; });
+    bindCards("#case-grid", CASE_DATA.featured, "featured");
+  }).catch(function(){ $("case-grid").innerHTML = '<p class="hint">案例加载失败。</p>'; });
+
+  getJSON("/api/cases_extra").then(function(r){
+    var meta = r.meta || {};
+    $("extra-label").textContent = (r.count||0) + " 条 · 全部实测链接";
+    $("extra-grid").innerHTML = (r.cases||[]).map(function(c){
+      var lv = {A:"A 第三方", B:"B 官方/单位", C:"C 自述", D:"D 计划"}[c.evidence_level] || c.evidence_level;
+      var st = (c.link_status === "dead") ? '<span class="tag bad">链接失效</span>'
+        : (c.link_status === "blocked" ? '<span class="tag claim">访问受限</span>' : "");
+      return '<article class="cc" data-cid="'+esc(c.case_id)+'"><div class="dom">'+esc(c.domain)+' · '+esc(c.kind)+'</div>'+
+        '<h3>'+esc(c.title)+'</h3>'+
+        '<p>'+esc(c.institution||"")+'</p>'+
+        '<p style="font-size:13px;color:var(--ink2);border-left:2px solid var(--line);padding-left:8px">「'+esc((c.quote||"").slice(0,90))+'…」</p>'+
+        '<p style="font-size:12.5px;color:var(--ink3)">'+esc(lv)+' · '+esc(c.verification_status)+
+        ' · '+esc(c.published_at||"日期未知")+'</p>'+
+        '<div class="foot">来源：<a href="'+esc(c.source_url)+'" target="_blank" rel="noopener noreferrer">打开</a>'+
+        (st ? " " + st : "") + '</div></article>';
+    }).join("") || '<p class="hint">暂无补充案例。</p>';
+    (r.cases||[]).forEach(function(c){ CASE_DATA.extra[c.case_id] = c; });
+    bindCards("#extra-grid", CASE_DATA.extra, "extra");
+  }).catch(function(){ $("extra-grid").innerHTML = '<p class="hint">补充案例加载失败。</p>'; });
+
+  getJSON("/api/guides").then(function(r){
+    window.__guides = r.guides||[];
+    window.__links = r.links||[];
+    $("guide-grid").innerHTML = (r.guides||[]).map(function(g){
+      return '<article class="gc"><h3>'+esc(g.title)+'</h3><p class="q">'+esc(g.question)+'</p>'+
+        '<p>'+esc(g.summary)+'</p>'+
+        '<details><summary>典型材料（'+((g.typical_evidence||[]).length)+'）</summary><ul>'+
+          (g.typical_evidence||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></details>'+
+        '<details><summary>常见误区</summary><ul>'+(g.pitfalls||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></details>'+
+        '<details><summary>下一步</summary><ul>'+(g.next_steps||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></details>'+
+        '<div class="foot" style="font-size:12px;color:var(--ink3);margin-top:8px">来源：'+
+          (g.sources||[]).filter(function(s){return s.resolved;}).map(function(s){
+            return '<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.case_id)+'</a>';
+          }).join("、")+'</div></article>';
+    }).join("");
+    renderLinks(window.__links, r.links_meta);
+  }).catch(function(){ $("guide-grid").innerHTML = '<p class="hint">指引加载失败。</p>'; });
+
+  function renderLinks(list, meta){
+    $("link-grid").innerHTML = (list||[]).map(function(l){
+      return '<div class="lk"><div class="n">'+esc(l.name)+'</div><div class="p">'+esc(l.purpose)+'</div>'+
+        '<div class="u"><a href="'+esc(l.url)+'" target="_blank" rel="noopener noreferrer">'+esc(l.url)+'</a></div>'+
+        '<div class="st">实测状态 '+esc(l.status)+' · 核对于 '+esc((meta&&meta.verified_at)||"")+
+        (l.note?(' · '+esc(l.note)):'')+'</div></div>';
+    }).join("");
+  }
+})();
+</script>
+
+<!-- F06 案例轮播：自动播放＋暂停＋手动切换＋显示全部（展示层，不碰判据） -->
+<style>
+.cards.is-caro{position:relative}
+.cards.is-caro > .cc{display:none}
+.cards.is-caro > .cc.caro-on,.cards.caro-all > .cc{display:block}
+.caro-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.caro-bar button{font:inherit;font-size:12.5px;line-height:1.4;padding:5px 12px;border:1px solid #c6cdd6;background:#fff;color:inherit;border-radius:16px;cursor:pointer}
+.caro-bar button:focus-visible{outline:2px solid #0f5c4d;outline-offset:2px}
+.caro-bar button[aria-pressed="true"]{background:#0f5c4d;color:#fff;border-color:#0f5c4d}
+.caro-dots{display:flex;gap:6px;margin-left:auto}
+.caro-dots button{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid #c6cdd6;background:#e6ebf0}
+.caro-dots button[aria-current="true"]{background:#0f5c4d;border-color:#0f5c4d}
+.caro-note{font-size:12px;color:#5b6670}
+@media print{.cards.is-caro > .cc{display:block!important}.caro-bar{display:none!important}}
+@media (prefers-reduced-motion: reduce){.cards.is-caro > .cc{display:block!important}.caro-bar{display:none!important}}
+</style>
+<script>
+(function(){
+  var grid = document.getElementById("case-grid");
+  if (!grid || grid.dataset.caro) return;
+  grid.dataset.caro = "1";
+  var reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var cards = [], idx = 0, timer = null, dots = null, tog = null, all = false;
+  function paint(){
+    cards.forEach(function(c,k){ c.classList.toggle("caro-on", k === idx); });
+    if (dots) Array.prototype.forEach.call(dots.children, function(d,k){ d.setAttribute("aria-current", k === idx ? "true" : "false"); });
+    if (tog) { tog.setAttribute("aria-pressed", timer ? "true" : "false"); tog.textContent = timer ? "暂停轮播" : "继续轮播"; }
+  }
+  function go(n){ if (cards.length) { idx = (n + cards.length) % cards.length; paint(); } }
+  function stop(){ if (timer) { clearInterval(timer); timer = null; } paint(); }
+  function start(){ stop(); if (reduce || all || cards.length < 2) return; timer = setInterval(function(){ go(idx + 1); }, 5000); paint(); }
+  function mk(tag, txt, cls){ var b = document.createElement(tag); b.type = "button"; b.textContent = txt; if (cls) b.className = cls; return b; }
+  function build(){
+    cards = Array.prototype.slice.call(grid.querySelectorAll(":scope > .cc"));
+    if (cards.length < 2) return;
+    grid.classList.add("is-caro");
+    var bar = mk("div", "", "caro-bar");
+    var prev = mk("button", "上一条"), next = mk("button", "下一条"),
+        tog_ = mk("button", "暂停轮播"), showall = mk("button", "显示全部 " + cards.length + " 条");
+    tog_.setAttribute("aria-pressed", "true");
+    showall.setAttribute("aria-pressed", "false");
+    dots = mk("div", "", "caro-dots"); dots.setAttribute("role", "tablist");
+    dots.setAttribute("aria-label", "案例轮播定位");
+    cards.forEach(function(c,k){ var d = mk("button", ""); d.setAttribute("aria-label", "第 " + (k+1) + " 条案例"); d.setAttribute("role","tab"); dots.appendChild(d); });
+    var note = mk("span", "共 " + cards.length + " 条，均来源已人工核对原文", "caro-note");
+    [prev, next, tog_, showall, dots, note].forEach(function(el){ bar.appendChild(el); });
+    grid.insertAdjacentElement("afterend", bar);
+    tog = tog_;
+    prev.onclick = function(){ stop(); go(idx - 1); };
+    next.onclick = function(){ stop(); go(idx + 1); };
+    tog.onclick = function(){ timer ? stop() : start(); };
+    showall.onclick = function(){
+      all = !all; grid.classList.toggle("caro-all", all);
+      showall.setAttribute("aria-pressed", all ? "true" : "false");
+      showall.textContent = all ? "收起为单条轮播" : "显示全部 " + cards.length + " 条";
+      if (all) { stop(); } else { start(); }
+    };
+    dots.onclick = function(ev){ var k = Array.prototype.indexOf.call(dots.children, ev.target); if (k >= 0) { stop(); go(k); } };
+    grid.tabIndex = -1;
+    document.addEventListener("keydown", function(ev){
+      if (!/Arrow(Left|Right)/.test(ev.key)) return;
+      var r = grid.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;      // 不在视口内不劫持方向键
+      stop(); go(idx + (ev.key === "ArrowRight" ? 1 : -1));
+    });
+    paint();
+    if (!reduce) start();
+  }
+  if (grid.querySelector(".cc")) build();
+  else { var ob = new MutationObserver(function(){ if (grid.querySelector(".cc")) { ob.disconnect(); build(); } }); ob.observe(grid, {childList: true}); }
+})();
+</script>
+</body>
+</html>
