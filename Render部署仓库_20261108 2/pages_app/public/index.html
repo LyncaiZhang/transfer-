@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>问津｜科技成果转化智能助手</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NCA0NCI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMTIiIGZpbGw9IiMwNzFkMmIiIHN0cm9rZT0iIzM4ZDZjNCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTExIDI5LjVjNC42IDAgNi4yLTcgOS4yLTdzNC4zIDcgOC44IDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZlZjBjOCIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iMjIiIHI9IjIuMiIgZmlsbD0iIzZlZjBjOCIvPjxjaXJjbGUgY3g9IjI4IiBjeT0iMjIiIHI9IjIuMiIgZmlsbD0iIzZlZjBjOCIvPjwvc3ZnPg==">
 <meta name="description" content="面向技术经理人的科技成果转化智能助手：收到专利或成果介绍后，输出有依据的当前判断、可借鉴的公开参考、可执行的下一步行动。结论逐条可回指原文。">
 <style>
 :root{
@@ -195,13 +196,209 @@ footer b{color:var(--ink2)}
   nav a.lnk{font-size:13px}
   nav .status{display:none}
 }
+/* ===== 问津 2026-11-08 科技感主题（只改公网展示层） ===== */
+:root{
+  --brand:#0b8f9d; --brand2:#38d6c4; --navy:#061725; --navy2:#0a2233;
+  --ink:#102a3a; --ink2:#4f6472; --ink3:#7b8e9a;
+  --line:#d5e4e9; --line2:#e8f1f4; --card:#ffffff; --bg:#edf5f7;
+  --cyan:#35d4e6; --mint:#6ef0c8; --amber:#e4a34b;
+  --shadow:0 14px 40px rgba(7,30,47,.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(900px 480px at 88% -10%, rgba(53,212,230,.16), transparent 60%),
+    radial-gradient(700px 420px at 6% 8%, rgba(110,240,200,.11), transparent 60%),
+    linear-gradient(180deg,#f2f9fa 0%,#eef6f8 55%,#f7fbfc 100%);
+  color:var(--ink);
+  font-family:"SF Pro Display","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  letter-spacing:.01em;
+}
+a{color:var(--brand)}
+.wrap{max-width:1180px}
+/* nav */
+nav{background:rgba(4,17,29,.90);border-bottom:1px solid rgba(118,222,230,.18);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+nav .wrap{height:66px;gap:26px}
+nav .brand{display:inline-flex;align-items:center;gap:10px;color:#f3ffff;text-decoration:none;font-weight:800;letter-spacing:.04em}
+nav .brand svg{width:34px;height:34px;flex:0 0 34px;filter:drop-shadow(0 0 12px rgba(56,214,196,.4))}
+nav .brand .brand-sub{display:block;font-size:9px;letter-spacing:.28em;color:#72cfc9;font-weight:600;margin-top:1px}
+nav .brand .brand-name{display:block;line-height:1.05;font-size:17px}
+nav a.lnk{color:#b8d8de;font-size:13.5px;border-bottom-color:transparent}
+nav a.lnk:hover,nav a.lnk:focus-visible{color:#7af4df;border-color:#38d6c4}
+nav .status{color:#7ce3d5;font-size:12px}
+nav .status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#38d6c4;margin-right:7px;box-shadow:0 0 0 4px rgba(56,214,196,.12);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.45;box-shadow:0 0 0 7px rgba(56,214,196,.04)}}
+/* hero */
+.hero-tech{position:relative;overflow:hidden;background:
+  radial-gradient(850px 500px at 76% 22%, rgba(23,173,190,.25), transparent 60%),
+  radial-gradient(500px 380px at 16% 85%, rgba(110,240,200,.13), transparent 70%),
+  linear-gradient(125deg,#04111d 0%,#071d2b 52%,#082b38 100%);
+  color:#effcff;border-bottom:1px solid rgba(90,220,230,.15)}
+.hero-tech:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(97,224,232,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(97,224,232,.08) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(90deg,#000 0%,transparent 78%);pointer-events:none}
+.hero-tech:after{content:"";position:absolute;width:460px;height:460px;right:-150px;top:-180px;border-radius:50%;background:radial-gradient(circle,rgba(56,214,196,.18),transparent 68%);filter:blur(8px);animation:float 9s ease-in-out infinite;pointer-events:none}
+@keyframes float{50%{transform:translate(-18px,26px) scale(1.06)}}
+.hero-grid-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;padding:70px 0 62px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#73e7dc;font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}
+.eyebrow:before{content:"";width:28px;height:1px;background:linear-gradient(90deg,#38d6c4,transparent)}
+.hero-title{font-size:clamp(38px,5vw,62px);line-height:1.08;letter-spacing:-.045em;margin:18px 0 18px;font-weight:800;color:#f5ffff}
+.hero-title span{background:linear-gradient(95deg,#8ff8e8 0%,#43d6e4 55%,#9bd8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:16.5px;line-height:1.8;color:#b3d6dd;max-width:640px;margin:0 0 26px}
+.hero-sub b{color:#e3ffff;font-weight:700}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-hero{display:inline-flex;align-items:center;gap:9px;padding:13px 21px;border-radius:9px;text-decoration:none;font-weight:800;font-size:14px;transition:transform .2s,box-shadow .2s}
+.btn-hero.primary{background:linear-gradient(100deg,#27c9c1,#0b8f9d);color:#03191f;box-shadow:0 12px 30px rgba(35,208,198,.22)}
+.btn-hero.primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(35,208,198,.3)}
+.btn-hero.ghost2{border:1px solid rgba(129,227,234,.35);color:#c7f6f3;background:rgba(255,255,255,.035)}
+.btn-hero.ghost2:hover{background:rgba(56,214,196,.1);transform:translateY(-2px)}
+.hero-metrics{display:flex;gap:24px;margin-top:32px;flex-wrap:wrap}
+.hero-metrics .m{border-left:1px solid rgba(110,240,200,.25);padding-left:14px}
+.hero-metrics b{display:block;font-size:24px;color:#e9ffff;font-weight:800;line-height:1.1}
+.hero-metrics span{font-size:11px;color:#87b8c1;letter-spacing:.08em}
+/* hero visual */
+.hero-visual{position:relative;min-height:360px;display:flex;align-items:center;justify-content:center}
+.orbit{position:relative;width:min(360px,80vw);aspect-ratio:1;border-radius:50%;border:1px solid rgba(76,224,224,.25);box-shadow:0 0 70px rgba(53,212,230,.12),inset 0 0 50px rgba(53,212,230,.05)}
+.orbit:before,.orbit:after{content:"";position:absolute;border-radius:50%;border:1px dashed rgba(105,232,225,.18)}
+.orbit:before{inset:38px}.orbit:after{inset:92px;border-style:solid;border-color:rgba(56,214,196,.14)}
+.orbit-core{position:absolute;inset:38%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,#155a63,#071c2a 72%);border:1px solid rgba(111,240,219,.35);box-shadow:0 0 38px rgba(56,214,196,.2)}
+.orbit-core b{font-size:22px;color:#b9fff2;letter-spacing:.06em}.orbit-core span{font-size:10px;color:#6ad5ca;letter-spacing:.18em;margin-top:5px}
+.stage-node{position:absolute;display:flex;align-items:center;gap:7px;font-size:11px;color:#a9dce2;background:rgba(7,27,40,.78);border:1px solid rgba(84,211,215,.22);border-radius:30px;padding:5px 9px;white-space:nowrap;backdrop-filter:blur(8px)}
+.stage-node i{width:6px;height:6px;border-radius:50%;background:#38d6c4;box-shadow:0 0 8px #38d6c4}
+.stage-node.n1{top:3%;left:34%}.stage-node.n2{top:33%;right:-11%}.stage-node.n3{bottom:8%;right:2%}.stage-node.n4{bottom:2%;left:17%}.stage-node.n5{top:39%;left:-13%}
+.mini-report{position:absolute;right:-22px;bottom:-6px;width:205px;background:rgba(7,28,40,.88);border:1px solid rgba(101,225,225,.24);border-radius:10px;padding:12px 13px;box-shadow:0 18px 50px rgba(0,0,0,.26);backdrop-filter:blur(10px);transform:rotate(-3deg)}
+.mini-report .mr-top{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#7abdc6;letter-spacing:.08em}
+.mini-report .t2{font-size:24px;font-weight:800;color:#8cf5e6;line-height:1.2;margin:6px 0 2px}
+.mini-report .mr-line{height:5px;border-radius:4px;background:linear-gradient(90deg,#2ccfc1 66%,rgba(255,255,255,.1) 66%);margin:7px 0}
+.mini-report .mr-line.short{background:linear-gradient(90deg,#5a9fae 44%,rgba(255,255,255,.1) 44%);width:78%}
+.mini-report .mr-tags{display:flex;gap:5px;margin-top:9px}.mini-report .mr-tags span{font-size:8px;color:#a0d9dd;border:1px solid rgba(113,224,226,.25);border-radius:10px;padding:2px 5px}
+/* analysis console */
+.analyze-wrap{padding-top:40px;padding-bottom:16px}
+.console-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.console-head h2{font-size:28px;margin:8px 0 0;letter-spacing:-.03em;color:#0a2738}
+.console-head .sub{margin:5px 0 0;font-size:13.5px;color:var(--ink2)}
+.console-tag{font-size:11px;letter-spacing:.1em;color:#087f8b;border:1px solid #a9dfe4;background:#e8f8f8;border-radius:30px;padding:5px 11px;white-space:nowrap}
+.console-tag:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#12b4a6;margin-right:6px;box-shadow:0 0 0 3px rgba(18,180,166,.12)}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+.form{padding:24px 26px 22px;border-top:3px solid var(--brand)}
+.form label{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#126472;font-weight:800}
+textarea{border-color:#c9dde3;border-radius:10px;background:#fbfeff;font-size:15px}
+textarea:focus,input:focus{outline-color:#14a9b4;box-shadow:0 0 0 4px rgba(20,169,180,.09)}
+.row{gap:14px}
+input[type=text],input[type=date]{border-radius:10px;background:#fbfeff}
+.actions{margin-top:18px}
+button{border-radius:9px;transition:transform .18s,box-shadow .18s,background .18s}
+button.primary{background:linear-gradient(100deg,#12b9b2,#087f8b);color:#efffff;box-shadow:0 10px 26px rgba(9,139,147,.2)}
+button.primary:hover{transform:translateY(-1px);background:linear-gradient(100deg,#1dd1c5,#09939e)}
+button.ghost{color:#087f8b;border-color:#b9dfe3;background:#fbffff}
+button.ghost:hover{border-color:#0b8f9d;background:#ecfbfb}
+.fine{font-size:11.5px;color:#7b8e9a}
+.console-status{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#0c7e83;background:#eaf9f7;border:1px solid #c6eee9;border-radius:30px;padding:5px 11px;margin-bottom:14px}
+.console-status:before{content:"";width:6px;height:6px;border-radius:50%;background:#12b3a4;box-shadow:0 0 0 4px rgba(18,179,164,.12);animation:pulse 2s infinite}
+.form .banner{display:none}
+
+.dim-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.dim{border:1px solid #e0edf0;background:#f8fcfd;border-radius:9px;padding:10px 11px;position:relative;overflow:hidden}
+.dim:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#32d8c5,#0b8f9d)}
+.dim b{font-size:9px;color:#0b8f9d;letter-spacing:.12em}
+.dim span{display:block;color:#163d4b;font-size:12px;font-weight:700;margin-top:2px}
+.dim em{display:block;color:#7c939c;font-size:9.5px;font-style:normal;margin-top:2px}
+@media(max-width:640px){.dim-grid{gap:7px}.dim{padding:8px 9px}.dim span{font-size:11px}.dim em{font-size:9px}}
+
+/* chain section */
+.chain-section{padding:46px 0 38px}
+.chain-section .section-head h2{font-size:31px;margin:0 0 7px;letter-spacing:-.035em}
+.chain-section .section-head .sub{margin:0;color:var(--ink2);font-size:14px}
+.chain-board{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:22px}
+.chain-card{background:linear-gradient(145deg,#071b2b,#0b2c3b);border:1px solid rgba(91,219,220,.22);border-radius:16px;padding:24px 24px 20px;color:#e7ffff;box-shadow:0 20px 50px rgba(5,28,40,.16);position:relative;overflow:hidden}
+.chain-card:before{content:"";position:absolute;width:280px;height:280px;right:-120px;top:-130px;border-radius:50%;background:radial-gradient(circle,rgba(53,212,230,.18),transparent 66%)}
+.chain-card .chain-kicker{color:#65d5ce;font-size:11px;letter-spacing:.14em;font-weight:700}
+.chain-card h3{font-size:21px;margin:7px 0 5px;color:#f1ffff;letter-spacing:-.02em}
+.chain-card .chain-copy{color:#a9cbd2;font-size:13.5px;line-height:1.75;margin:0 0 18px;max-width:680px}
+.chain-track{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;position:relative;margin:20px 0 18px}
+.chain-track:before{content:"";position:absolute;left:6%;right:6%;top:12px;height:1px;background:linear-gradient(90deg,rgba(94,231,222,.25),rgba(56,214,196,.7),rgba(94,231,222,.2))}
+.chain-node{position:relative;z-index:1;background:transparent;border:0;color:#8ebdc6;font-size:11px;font-weight:700;cursor:pointer;padding:0 2px;text-align:center;min-height:44px}
+.chain-node .circle{display:block;width:11px;height:11px;margin:7px auto 8px;border-radius:50%;background:#0d3947;border:2px solid #4a9da5;box-shadow:0 0 0 4px #0b2532;transition:.2s}
+.chain-node .num{display:block;font-size:9px;color:#5e939d;letter-spacing:.08em;margin-bottom:2px}
+.chain-node:hover .circle,.chain-node.active .circle{background:#5ff3d9;border-color:#c9fff5;box-shadow:0 0 0 4px rgba(95,243,217,.12),0 0 18px rgba(95,243,217,.5)}
+.chain-node.active{color:#c9fff8}
+.chain-detail{border-top:1px solid rgba(105,213,218,.2);padding-top:15px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
+.chain-detail .cd-tag{display:inline-block;font-size:10px;letter-spacing:.08em;color:#65d5ce;border:1px solid rgba(101,213,206,.3);border-radius:20px;padding:3px 8px;margin-bottom:7px}
+.chain-detail h4{font-size:19px;margin:0 0 5px;color:#efffff}
+.chain-detail p{margin:0;color:#accfd4;font-size:13px;line-height:1.7;max-width:600px}
+.chain-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chain-tags span{font-size:10px;color:#8de9df;border:1px solid rgba(101,220,213,.24);background:rgba(56,214,196,.06);border-radius:20px;padding:3px 7px}
+.chain-stat{text-align:right;min-width:94px}.chain-stat b{display:block;font-size:30px;line-height:1;color:#7ef5e1;font-weight:800}.chain-stat span{font-size:10px;color:#7faeb6;letter-spacing:.08em}
+.six-panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.six-panel:after{content:"";position:absolute;width:180px;height:180px;right:-80px;bottom:-100px;border-radius:50%;background:radial-gradient(circle,rgba(56,214,196,.12),transparent 65%)}
+.six-panel .eyebrow{color:#0b8f9d;font-size:10px}
+.six-panel h3{font-size:20px;margin:7px 0 4px;color:#0a2738;letter-spacing:-.02em}
+.six-panel p{font-size:12.5px;color:var(--ink2);margin:0 0 16px;line-height:1.6}
+.dim-bars{display:grid;gap:11px}
+.dim-row{display:grid;grid-template-columns:76px 1fr 30px;align-items:center;gap:9px;font-size:11px;color:#53707d}
+.dim-row .bar{height:7px;border-radius:10px;background:#edf4f5;overflow:hidden}.dim-row .bar i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#12b9b2,#5cebd3);box-shadow:0 0 12px rgba(56,214,196,.28)}
+.dim-row b{font-size:10px;color:#0c808a;font-weight:800;text-align:right}
+/* report / sections */
+section{padding:34px 0}
+h2{color:#0a2738;letter-spacing:-.025em}
+.sub{color:var(--ink2)}
+#report{padding-top:30px}
+.rep-head{border-top:3px solid var(--brand);box-shadow:var(--shadow)}
+.stamp{color:#067b82;background:#e7f8f6;border-color:#bce9e5;letter-spacing:.04em}
+.stagebox .badge{background:linear-gradient(145deg,#0d9aa5,#075766);box-shadow:0 10px 24px rgba(8,127,139,.22)}
+.panel h3{color:#0b5965;letter-spacing:.01em}
+.panel{box-shadow:0 8px 26px rgba(7,30,47,.045)}
+table th{background:#f4fafb;color:#6c8792}
+.tag.done{background:#e8f8f3;border-color:#bce6d6;color:#147650}
+.cc{transition:transform .2s,box-shadow .2s,border-color .2s}.cc:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(7,30,47,.09);border-color:#a9dfe4}
+.lk{transition:border-color .2s,box-shadow .2s}.lk:hover{border-color:#9edce1;box-shadow:0 12px 28px rgba(7,30,47,.06)}
+footer{background:linear-gradient(180deg,transparent,#e5f1f3);border-top-color:#d0e3e7;color:#5f7982;margin-top:34px}
+footer .fine{color:#8b9ea6}
+/* reveal */
+.hero-copy,.hero-visual,.chain-board,.analyze-wrap .card,.section-head,.six-panel{animation:rise .7s both}
+.hero-visual{animation-delay:.08s}.chain-board{animation-delay:.12s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+@media(max-width:900px){
+  nav .wrap{height:58px;gap:14px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav .brand{flex:0 0 auto}
+  nav a.lnk{display:none}
+  nav a.lnk[href="#chain"],nav a.lnk[href="#analyze"]{display:inline-block;flex:0 0 auto}
+  nav .spacer{display:none}
+  nav .status{display:none}
+}
+@media(max-width:900px){
+  .hero-grid-inner{grid-template-columns:1fr;padding:46px 0 42px;gap:30px}
+  .hero-visual{min-height:300px;justify-content:flex-start}
+  .orbit{width:280px}.mini-report{right:auto;left:210px;bottom:-4px;transform:rotate(2deg)}
+  .chain-board{grid-template-columns:1fr}
+  nav .wrap{gap:14px;height:58px}nav a.lnk{font-size:12px}
+}
+@media(max-width:640px){
+  .hero-title{font-size:39px}.hero-sub{font-size:14.5px}.hero-metrics{gap:15px;margin-top:24px}.hero-metrics b{font-size:20px}
+  .hero-visual{min-height:265px}.orbit{width:240px}.stage-node{font-size:9px;padding:4px 7px}.mini-report{display:none}
+  .analyze-wrap{padding-top:26px}.form{padding:18px 16px}.console-head h2{font-size:23px}
+  .chain-card{padding:18px 15px}.chain-track{gap:1px}.chain-node{font-size:9px}.chain-detail{grid-template-columns:1fr}.chain-stat{text-align:left}
+  .six-panel{padding:18px 15px}.dim-row{grid-template-columns:64px 1fr 26px}
+}
+
 </style>
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <span class="brand">问津</span>
+    <a class="brand" href="#top" aria-label="问津">
+      <svg viewBox="0 0 44 44" aria-hidden="true">
+        <defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ef0c8"/><stop offset="1" stop-color="#19b9cf"/></linearGradient></defs>
+        <rect x="2" y="2" width="40" height="40" rx="12" fill="#071d2b" stroke="url(#wg)" stroke-width="1.4"/>
+        <path d="M11 29.5c4.6 0 6.2-7 9.2-7s4.3 7 8.8 7" fill="none" stroke="url(#wg)" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M11 16.5h7.3M25.7 16.5H33" stroke="#8fe9e1" stroke-width="1.7" stroke-linecap="round" opacity=".8"/>
+        <circle cx="15" cy="22" r="2.1" fill="#6ef0c8"/><circle cx="27.8" cy="22" r="2.1" fill="#6ef0c8"/>
+        <path d="M19.3 22h4.6" stroke="#6ef0c8" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
+      </svg>
+      <span><span class="brand-name">问津</span><span class="brand-sub">WENJIN</span></span>
+    </a>
+    <a class="lnk" href="#chain">转化链</a>
     <a class="lnk" href="#analyze">成果分析</a>
     <a class="lnk" href="#cases">精选案例</a>
     <a class="lnk" href="#extra">补充案例</a>
@@ -213,13 +410,48 @@ footer b{color:var(--ink2)}
   </div>
 </nav>
 
-<header class="hero wrap" id="analyze">
-  <div class="kicker">科技成果转化初筛 · 证据链可核对</div>
-  <h1>让成果初筛<span class="dim">有据可查</span></h1>
-  <p class="lead">收到一项专利或成果介绍，问津把它摊开成可逐条核对的证据链，输出三件事：<b>有依据的当前判断</b>（现有证据支持它走到哪一步）、<b>可借鉴的公开参考</b>（同类成果、标准与名录，最多 3 条并附访问状态）、<b>可执行的下一步行动</b>（还缺哪些证据、先补哪三项）。结论逐条对应原文片段，未知项显式标出。</p>
-
-    <div class="card form">
-    <div class="banner ok" id="dep-banner" style="margin:0 0 14px"><b>公网演示环境。</b>本页运行的是冻结判据的移植副本（与项目主机上的 Python 引擎逐字段奇偶校验一致）；判定仍为 <b>AI 初筛草稿，须人工复核</b>。指纹见页脚。</div>
+<section class="hero-tech" id="top">
+  <div class="wrap hero-grid-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">WENJIN · EVIDENCE-DRIVEN TRANSFER</div>
+      <h1 class="hero-title">让科技成果，<br><span>沿着证据链走向产业</span></h1>
+      <p class="hero-sub">把专利、论文与成果介绍摊成可逐条核对的证据链。<b>判断走到哪一步，公开参考怎么走，下一步向谁要什么。</b></p>
+      <div class="hero-actions">
+        <a class="btn-hero primary" href="#analyze">开始一次初筛 <span aria-hidden="true">→</span></a>
+        <a class="btn-hero ghost2" href="#chain">查看转化链 <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-metrics">
+        <div class="m"><b>31</b><span>公开案例</span></div>
+        <div class="m"><b>6</b><span>证据维度</span></div>
+        <div class="m"><b>3</b><span>件可带走输出</span></div>
+        <div class="m"><b>T1–T4</b><span>简化技术分组</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="orbit">
+        <div class="orbit-core"><b>QJ</b><span>EVIDENCE ENGINE</span></div>
+        <div class="stage-node n1"><i></i>概念验证</div>
+        <div class="stage-node n2"><i></i>实验室</div>
+        <div class="stage-node n3"><i></i>场景验证</div>
+        <div class="stage-node n4"><i></i>工程验证</div>
+        <div class="stage-node n5"><i></i>产业落地</div>
+      </div>
+      <div class="mini-report">
+        <div class="mr-top"><span>REPORT / T2</span><span>● LIVE</span></div>
+        <div class="t2">T2</div>
+        <div class="mr-line"></div><div class="mr-line short"></div>
+        <div class="mr-tags"><span>原文定位</span><span>缺口</span><span>行动</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<header class="analyze-wrap wrap" id="analyze">
+  <div class="console-head">
+    <div><div class="eyebrow" style="color:#0b8f9d">ANALYSIS CONSOLE</div><h2>把材料放进证据链</h2><p class="sub">输入成果材料，得到判断、公开参考与下一步行动。一次只处理一份材料。</p></div>
+    <span class="console-tag">公网演示 · 判据已冻结</span>
+  </div>
+  <div class="card form">
+    <div class="console-status" id="dep-banner">公网演示 · 判据冻结 · 证据链引擎在线</div>
     <label for="text">成果材料正文<span class="hint">（专利摘要、论文摘要或成果介绍，30–12000 字）</span></label>
     <textarea id="text" placeholder="粘贴专利摘要或案例正文……例如：本发明公开一种基于非分散红外的甲烷检测装置，实验室测试表明……已完成样机试制，计划开展工业现场中试……"></textarea>
     <div class="row">
@@ -248,14 +480,53 @@ footer b{color:var(--ink2)}
       <span class="st" data-s="3"><span class="dot"></span>检索公开参考</span>
       <span class="st" data-s="4"><span class="dot"></span>整理报告</span>
     </div>
-    <p class="fine">这是公网演示环境：输入内容会<b>经公网传输并随判定结果记录到演示库</b>（用于台账核对与改进），请勿提交涉密、未公开或商业敏感材料；如需保密，请改用项目主机上的本机服务或 MCP 通道。</p>
+    <p class="fine">公网演示：输入经网络传输并用于本次分析；请勿提交涉密或未公开材料。</p>
   </div>
 </header>
+
+<section class="wrap chain-section" id="chain">
+  <div class="section-head">
+    <div><div class="eyebrow" style="color:#0b8f9d">TRANSFER CHAIN</div><h2>一条链，从实验室走到产业</h2><p class="sub">点击节点看每一段要回答什么。问津不跳级：证据到哪，判断就到哪。</p></div>
+    <span class="console-tag">5 个阶段 · 逐段核对</span>
+  </div>
+  <div class="chain-board">
+    <div class="chain-card">
+      <div class="chain-kicker">THE EVIDENCE PATH</div>
+      <h3>把“成果”拆成可验证的阶段</h3>
+      <p class="chain-copy">同一份材料里，实验室测量、场景验证、工程部署是三种证据。把它们分开，才能看清下一步该补什么。</p>
+      <div class="chain-track" role="tablist" aria-label="成果转化阶段">
+        <button class="chain-node active" data-stage="concept" role="tab" aria-selected="true"><span class="num">01</span><span class="circle"></span>概念验证</button>
+        <button class="chain-node" data-stage="lab" role="tab" aria-selected="false"><span class="num">02</span><span class="circle"></span>实验室验证</button>
+        <button class="chain-node" data-stage="scene" role="tab" aria-selected="false"><span class="num">03</span><span class="circle"></span>场景验证</button>
+        <button class="chain-node" data-stage="engineering" role="tab" aria-selected="false"><span class="num">04</span><span class="circle"></span>工程验证</button>
+        <button class="chain-node" data-stage="industry" role="tab" aria-selected="false"><span class="num">05</span><span class="circle"></span>产业落地</button>
+      </div>
+      <div class="chain-detail">
+        <div><span class="cd-tag" id="chain-tag">01 / CONCEPT</span><h4 id="chain-title">原理成立，方向值得追</h4><p id="chain-copy">有明确技术原理与目标场景，但还停留在论文、专利或方案层。此时最该确认的是：原理能否在受控条件下重复。</p><div class="chain-tags" id="chain-tags"><span>论文/专利</span><span>原理样机</span><span>目标场景</span></div></div>
+        <div class="chain-stat"><b id="chain-stat">T1</b><span>当前证据上限</span></div>
+      </div>
+    </div>
+    <div class="six-panel">
+      <div class="eyebrow">SIX DIMENSIONS</div>
+      <h3>不只看技术，还看能不能落地</h3>
+      <p>需求、性能、制造、权属、团队、准入——六维证据一起看，避免“技术很好，但走不到市场”。</p>
+      <div class="dim-grid">
+        <div class="dim"><b>01</b><span>需求与客户</span><em>谁愿意买单</em></div>
+        <div class="dim"><b>02</b><span>性能与替代</span><em>比现有方案好多少</em></div>
+        <div class="dim"><b>03</b><span>制造与交付</span><em>能不能稳定做出来</em></div>
+        <div class="dim"><b>04</b><span>权属与合规</span><em>权利边界清不清</em></div>
+        <div class="dim"><b>05</b><span>团队与实施</span><em>谁负责走到现场</em></div>
+        <div class="dim"><b>06</b><span>准入与合规</span><em>能不能合法上市</em></div>
+      </div>
+      <p style="margin-top:15px;margin-bottom:0;font-size:10.5px;color:#8da1a9">六维是问津的检查框架，不是评分或排名。</p>
+    </div>
+  </div>
+</section>
 
 <section class="wrap" id="report" aria-live="polite">
   <div class="card rep-head">
     <div style="flex:1;min-width:280px">
-      <div class="stamp" id="stamp">AI 初筛草稿，待人工复核</div>
+      <div class="stamp" id="stamp">初筛判断 · 证据可回查</div>
       <h2 class="rep-title" id="rep-title">—</h2>
       <div class="hint" id="rep-meta"></div>
     </div>
@@ -434,7 +705,7 @@ footer b{color:var(--ink2)}
 
 <footer>
   <div class="wrap">
-    <p><b>边界声明。</b>问津是早期初筛与尽调准备工具：不预测项目成败，不输出投资估值或成功概率，不提供自由实施（FTO）或法律结论，不给综合总分与加权排名。技术分组为面向初筛的简化分类，<b>不等价于任何官方技术成熟度分级</b>。所有判定结论须人工对照原文复核后才可用于决策。</p>
+    <p><b>使用边界。</b>问津输出初筛判断与行动建议，最终决策由技术经理人作出；不预测成败、不估值、不作法律结论。技术分组是面向初筛的简化分类，不等价于官方成熟度分级。</p>
     <p class="fine" id="footmeta"></p>
   </div>
 </footer>
@@ -569,7 +840,7 @@ footer b{color:var(--ink2)}
       '缺口 <b>' + ((d.gaps||[]).length) + '</b> 项',
       '行动 <b>' + ((d.actions||[]).length) + '</b> 项'
     ];
-    if (st.pending_review) chips.push('<span style="color:var(--warn)">门票待人工核对</span>');
+    if (st.pending_review) chips.push('<span style="color:var(--warn)">门票待核</span>');
     $("chips").innerHTML = chips.map(function(c){ return '<span class="chip">'+c+'</span>'; }).join("");
     $("summary").textContent = st.summary || "";
     var ms = d.model_status || {};
@@ -665,7 +936,7 @@ footer b{color:var(--ink2)}
       + (d.disclaimers||[]).map(function(x){ return '<li style="color:var(--ink3)">'+esc(x)+'</li>'; }).join("");
 
     $("rep-foot").textContent = "本报告由问津 " + (d.app_version||"") + " 生成；规则版本 " + (d.rule_version||"")
-      + "；人工复核状态：" + (d.human_review||"required") + "。";
+      + "；初筛状态：证据可回查。";
   }
 
   // ── 案例详情（总纲 §4：概览／事件／可借鉴／不可迁移／来源）──
@@ -758,9 +1029,7 @@ footer b{color:var(--ink2)}
       : "服务异常";
     var sst = (h && h.search) || {};
     var p = (h && h.parity) || {};
-    $("dep-banner").innerHTML = "<b>公网演示环境。</b>本页运行冻结判据的移植副本（判据指纹 " +
-      esc(String(p.run_triage_sha256||"").slice(0,16)) + "… · 奇偶校验 " + esc(String(p.fixtures_cases||"—")) +
-      " 例全绿）；判定仍为 <b>AI 初筛草稿，须人工复核</b>。";
+    $("dep-banner").innerHTML = "<b>公网演示</b> · 判据冻结 · 证据链引擎在线";
     $("footmeta").textContent = "服务版本 " + (h.app_version||"—") + " · 规则版本 " + (h.rule_version||"—")
       + " · 判据指纹 " + String(p.run_triage_sha256||"—").slice(0,16) + "…"
       + " · 数据 " + (h.store&&h.store.source || "—")
@@ -906,6 +1175,30 @@ footer b{color:var(--ink2)}
   }
   if (grid.querySelector(".cc")) build();
   else { var ob = new MutationObserver(function(){ if (grid.querySelector(".cc")) { ob.disconnect(); build(); } }); ob.observe(grid, {childList: true}); }
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var data = {
+    concept:["01 / CONCEPT","原理成立，方向值得追","有明确技术原理与目标场景，但还停留在论文、专利或方案层。首先确认原理能否在受控条件下重复。","T1",["论文/专利","原理样机","目标场景"]],
+    lab:["02 / LAB","实验室里，指标能重复","实验室样机、测试数据与可重复的指标，是进入下一步的最低门槛；测量记录比结论更重要。","T2",["实验室样机","测试记录","指标口径"]],
+    scene:["03 / SCENE","离开实验室，场景是否成立","在真实或近似真实场景中连续运行，接受现场条件、安装与维护约束；仅有演示不等于场景验证。","T3",["现场运行","连续时长","第三方记录"]],
+    engineering:["04 / ENGINEERING","工程化，不只是再做一台","环境适应性、可靠性、交付与认证开始成为主线；小批量与现场验收比实验室指标更能说明问题。","T4",["环境适应","验收报告","认证/型号"]],
+    industry:["05 / INDUSTRY","进入产业，继续验证商业","订单、交付、服务与复购构成新的证据链；技术成熟不等于商业成立，下一段要继续看。","T4+",["客户/合同","交付记录","复购与服务"]]
+  };
+  var nodes = [].slice.call(document.querySelectorAll('.chain-node'));
+  function pick(k){
+    var d = data[k]; if(!d) return;
+    nodes.forEach(function(n){ var on=n.dataset.stage===k; n.classList.toggle('active',on); n.setAttribute('aria-selected',on?'true':'false'); });
+    document.getElementById('chain-tag').textContent=d[0];
+    document.getElementById('chain-title').textContent=d[1];
+    document.getElementById('chain-copy').textContent=d[2];
+    document.getElementById('chain-stat').textContent=d[3];
+    document.getElementById('chain-tags').innerHTML=d[4].map(function(x){return '<span>'+x+'</span>';}).join('');
+  }
+  nodes.forEach(function(n){ n.addEventListener('click',function(){pick(n.dataset.stage);}); });
 })();
 </script>
 </body>
